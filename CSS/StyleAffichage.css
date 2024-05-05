@@ -1,0 +1,47 @@
+body {
+    background-color: #F5F5DC;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+    position: relative; /* Ajout de position relative pour positionner le bouton par rapport à la page */
+}
+
+table {
+    border-collapse: collapse;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+}
+
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 15px; /* Augmenter la taille de la cellule */
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #e0e0e0;
+}
+
+.page-suivante {
+    position: fixed; /* Position fixe pour rester au bas de la page même en cas de défilement */
+    bottom: 20px; /* Position par rapport au bas de la fenêtre */
+    right: 20px; /* Position par rapport à la droite de la fenêtre */
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3273b8; /* Couleur de fond bleue */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s; /* Transition fluide lors du survol */
+}
+
+.page-suivante:hover {
+    background-color: #0056b3; /* Couleur de fond plus foncée au survol */
+}

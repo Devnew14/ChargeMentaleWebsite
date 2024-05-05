@@ -1,0 +1,48 @@
+body {
+    background-color: #F5F5DC;
+}
+
+.graph-container {
+    width: 70%;
+    height: 10%;
+    position: relative; /* Ajout pour positionner la légende relative à son conteneur */
+}
+
+.legend {
+    position: absolute; /* Position absolue pour la légende */
+    bottom: 0; /* Alignement en bas */
+    left: 0; /* Alignement à gauche */
+    margin: 10px; /* Espacement */
+    font-size: 14px;
+}
+
+.legend span {
+    display: inline-block;
+    width: 20px;
+    height: 10px;
+    margin-right: 5px;
+}
+
+.user-charge {
+    background-color: red; /* Couleur pour la charge mentale de l'utilisateur */
+}
+
+.others-charge {
+    background-color: rgb(69, 54, 207); /* Couleur pour la charge estimée par les autres */
+}
+
+
+/* Ajout de styles pour le lien "Revenir en arrière" */
+a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3498db; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    text-decoration: none; /* Suppression du soulignement du texte */
+    border-radius: 5px; /* Coins arrondis */
+    transition: background-color 0.3s; /* Transition en douceur pour le changement de couleur au survol */
+}
+
+a:hover {
+    background-color: #2980b9; /* Nouvelle couleur de fond au survol */
+}

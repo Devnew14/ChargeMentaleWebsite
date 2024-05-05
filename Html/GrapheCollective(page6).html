@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Résultats Collectifs</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src='../JS/GrapheCollective(page6).js'></script>
+    <link rel="stylesheet" type="text/css" href="../CSS/GrapheCollective(page6).css">
+</head>
+<body>
+    <a href="Choix.html">Revenir en arrière</a>
+    <h1>Résultats : Test Collectifs</h1>
+
+    <div>
+        <p> Choisissez un utilisateur 1:</p>
+        <p>Voici le graphique représentant la charge mentale 
+            de l'utilisateur choisi, ainsi que celle que 
+            les autres membres de l'équipe ont estimée pour lui, 
+            sous forme de courbes.</p>
+        <select id="baliseSelectProfil1"></select>
+        <select id="baliseSelectDate1"></select>
+        <div id="divGraph1" class="graph-container"> 
+            <canvas id="graphique1"></canvas> 
+            <!-- Légende -->
+            <div class="legend">
+                <span class="user-charge"></span> Charge mentale de l'utilisateur selectionné<br>
+                <span class="others-charge"></span> Charge mentale estimée par les autres pour l'utilisateur selectionné
+            </div>
+        </div>
+    </div>
+    
+    <div>
+        <p> Choisissez un utilisateur 2:</p>
+        <p>Voici le graphique représentant la charge mentale 
+            de l'utilisateur choisi, ainsi que celle que 
+            les autres membres de l'équipe ont estimée pour lui, 
+            sous forme de courbes.</p>
+        <select id="baliseSelectProfil2"></select>
+        <select id="baliseSelectDate2"></select>
+        <div id="divGraph2" class="graph-container"> 
+            <canvas id="graphique2"></canvas> 
+            <!-- Légende -->
+            <div class="legend">
+                <span class="user-charge"></span> Charge mentale de l'utilisateur selectionné<br>
+                <span class="others-charge"></span> Charge mentale estimée par les autres pour l'utilisateur selectionné
+            </div>
+        </div>
+    </div>
+</body>
+</html>

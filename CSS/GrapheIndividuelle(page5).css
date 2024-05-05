@@ -1,0 +1,51 @@
+.controls h1 {
+    margin-bottom: 0px; /* Ajout de marge en bas du titre */
+}
+
+.container {
+    display: flex;
+    justify-content: flex-start; /* Alignement des éléments en haut */
+    align-items: flex-start; /* Alignement des éléments à gauche */
+    height: 100vh;
+    padding: 200px; /* Ajout de marges internes */
+    position: relative; /* Ajout de position relative pour positionner le bouton par rapport à ce conteneur */
+}
+
+.controls {
+    width: 100%; /* Occupe toute la largeur disponible */
+    max-width: 500px;
+    margin-right: 20px; /* Espacement entre les éléments */
+}
+
+#graph-container {
+    flex-grow: 1; /* Fait en sorte que le conteneur du graphe occupe tout l'espace disponible */
+    display: flex;
+    justify-content: flex-end; /* Alignement à droite */
+    align-items: flex-start; /* Alignement en haut */
+}
+
+#graphique {
+    max-width: 500px;
+    height: auto;
+}
+
+body {
+    background-color: #F5F5DC;
+}
+
+.retour-btn {
+    position: absolute; /* Position absolue pour placer le bouton par rapport à son conteneur parent */
+    top: 1px; /* Position par rapport au haut du conteneur parent */
+    left: 5px; /* Position par rapport à la gauche du conteneur parent */
+    display: inline-block;
+    padding: 8px 16px; /* Réduire la taille du bouton */
+    background-color: #3498db; /* Bleu doux */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.retour-btn:hover {
+    background-color: #2980b9; /* Bleu légèrement plus foncé au survol */
+}

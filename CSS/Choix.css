@@ -1,0 +1,56 @@
+body {
+    background-color:  #F5F5DC;
+    font-family: Arial, sans-serif; /* Utiliser une police de caractères plus lisible */
+    text-align: center; /* Centrer le contenu */
+    position: relative; /* Position relative pour permettre le positionnement absolu du bouton */
+}
+
+.back-button {
+    position: absolute; /* Position absolue pour le bouton */
+    top: 0.5px; /* Espacement en haut */
+    left: 0.5px; /* Espacement à gauche */
+    padding: 10px 20px; /* Ajouter du rembourrage pour améliorer l'apparence du bouton */
+    background-color: #3498db; /* Couleur de fond du bouton */
+    color: white; /* Couleur du texte du bouton */
+    text-decoration: none; /* Supprimer la soulignement par défaut du bouton */
+    border-radius: 5px; /* Ajouter des coins arrondis au bouton */
+    transition: background-color 0.3s; /* Ajouter une transition douce pour le changement de couleur de fond */
+}
+
+.back-button:hover {
+    background-color: #459249; /* Changement de couleur de fond au survol */
+}
+
+h1 {
+    font-size: 36px; /* Augmenter la taille de la police du titre */
+    font-size: 36px; /* Augmenter la taille de la police du titre */
+    margin-bottom: 100px; /* Ajouter de la marge en bas */
+}
+
+a {
+    display: inline-block; /* Permettre aux liens de se comporter comme des blocs pour mieux les aligner */
+    margin: 10px 0; /* Ajouter un espacement entre les liens */
+    padding: 10px 20px; /* Ajouter du rembourrage pour améliorer l'apparence des liens */
+    background-color: #4CAF50; /* Couleur de fond des liens au centre */
+    color: white; /* Couleur du texte des liens */
+    text-decoration: none; /* Supprimer la soulignement par défaut des liens */
+    border-radius: 5px; /* Ajouter des coins arrondis aux liens */
+    transition: background-color 0.3s; /* Ajouter une transition douce pour le changement de couleur de fond */
+}
+
+a:hover {
+    background-color: #459249; /* Changement de couleur de fond au survol */
+}
+
+.Tableaux, .Graphe {
+    font-size: 25px;
+    margin-right: 10px; /* Ajouter un espacement à droite pour séparer les classes */
+}
+
+.deconnexion {
+    background-color:  #3498db; /* Couleur de fond bleue */
+}
+
+.deconnexion:hover {
+    background-color: #0056b3; /* Changement de couleur de fond au survol */
+}

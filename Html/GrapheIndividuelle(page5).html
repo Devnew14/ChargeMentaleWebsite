@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Résultats : Test Individuel</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src='../JS/GrapheIndividuelle(page5).js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" type="text/css" href="../CSS/GrapheIndividuelle(page5).css">
+</head>
+<body>
+    <div class="container">
+        <div class="controls">
+            <h1>Résultats : Test Individuel</h1>
+
+            <!-- Ajout du texte -->
+            <div id="texteIntro">
+                <p>Le Test Individuel : Il permet d'afficher la liste des utilisateurs qui ont effectué un test en mode Individuel selon les échelles et le temps de notification</p>
+            </div>
+
+            <!-- Ajout du menu déroulant pour choisir le prénom -->
+            <select id="userDropdown" onchange="chargeSelcteurDate()">
+                <option value="">Choisissez un prénom</option>
+            </select>
+            <!-- Ajout du menu déroulant pour choisir la date du test -->
+            <select id="datesTest">
+                <option value="">Choisissez une date</option>
+            </select>
+
+            <!-- Ajout du bouton Valider -->
+            <button id="validerBtn" onclick="inter()">Valider</button>
+            
+            <!-- Ajout du bouton "Revenir en arrière" -->
+            <a href="javascript:history.back()" class="retour-btn">Revenir en arrière</a>
+        </div>
+
+        <canvas id="graphique"></canvas>
+    </div>
+</body>
+</html>
