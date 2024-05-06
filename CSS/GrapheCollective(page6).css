@@ -9,7 +9,7 @@ body {
 }
 
 .legend {
-    position: absolute; /* Position absolue pour la légende */
+    position: relative; /* Position absolue pour la légende */
     bottom: 0; /* Alignement en bas */
     left: 0; /* Alignement à gauche */
     margin: 10px; /* Espacement */
@@ -24,13 +24,22 @@ body {
 }
 
 .user-charge {
-    background-color: red; /* Couleur pour la charge mentale de l'utilisateur */
+    background-color: rgb(69, 54, 207); /* Couleur pour la charge mentale de l'utilisateur */
 }
 
-.others-charge {
-    background-color: rgb(69, 54, 207); /* Couleur pour la charge estimée par les autres */
+.others-charge-red {
+    background-color: red; /* Couleur pour la charge estimée par les autres */
+    
 }
 
+
+.others-charge-green {
+    background-color: green; /* Couleur pour la charge estimée par les autres */
+}
+
+.others-charge-black {
+    background-color: black; /* Couleur pour la charge estimée par les autres */
+}
 
 /* Ajout de styles pour le lien "Revenir en arrière" */
 a {

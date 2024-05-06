@@ -1,7 +1,7 @@
 let usersName = [];
 let usersData = [];
 let myChart = null; // Variable qui contient le graph 
-
+let usersInfo = [];
 
 
 
@@ -21,6 +21,7 @@ function RecupererDonnees() {
                     // Stocker les données d'évaluations individuelles sous la clé du nom complet
                     usersName.push(fullName);//stocker les noms
                     usersData[fullName] = user.evaluations.evaluations_seul.note;
+                    usersInfo[fullName] = [user.nom , user.prenom ,user.date_naissance,user.sexe,user.metier];
                 }
             }
 
@@ -109,7 +110,7 @@ function inter(){
     
     }
     else{
-        alert('selectionner une date ');
+        alert('selectionner une date et/ou un utilisateur ');
     }
 }
 
@@ -142,7 +143,9 @@ function chargeSelcteurName(){//ajouter les different nom dans la liste deroulan
     chargeSelcteurDate();
 }
 
+function chargenfos(){// ajoute les infos de l'utilisateur (nom ,prenom ,age ,sexe ,metier)  
 
+}
 
 function chargeSelcteurDate() {
     const nameSelected = document.getElementById('userDropdown').value;

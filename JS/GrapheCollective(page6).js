@@ -34,6 +34,13 @@ function afficherUserProfils() {
     for (let i = 1; i <= 2; i++) {
         const selectElement = document.getElementById(`baliseSelectProfil${i}`);
         selectElement.innerHTML = ''; // reinitialiser la balise select  
+        
+        
+        // Ajouter l'option par défaut "Choisissez un utilisateur"
+        const defaultOption = document.createElement('option');
+        defaultOption.value = "";
+        defaultOption.text = "Choisissez un utilisateur";
+        selectElement.appendChild(defaultOption);
 
         // Parcourir les noms d'utilisateurs et ajouter une option pour chaque nom au sélecteur
         nameUser.forEach(fullName => {
@@ -71,6 +78,13 @@ function afficherDate(selectedUser, chartIndex) {
     const selectElement = document.getElementById(`baliseSelectDate${chartIndex}`);
     selectElement.innerHTML = ''; // reinitialiser la balise select  
     const dateTestCollectif = regrouperNotesParDate(usersData[selectedUser].evaluations.evaluation_collective.notes);
+
+    // Ajouter l'option par défaut "Choisissez une date"
+    const defaultOption = document.createElement('option');
+    defaultOption.value = "";
+    defaultOption.text = "Choisissez une date";
+    selectElement.appendChild(defaultOption);
+
 
     keyDates.forEach(date => {
         const option = document.createElement('option');
@@ -115,7 +129,7 @@ function afficherGraphique(selectedUser, chartIndex) {
                 labels: lesinter,
                 datasets: [
                     {
-                        label: selectedUser[0].realisePar,
+                        label: "Estimation réalisée par l'utilisateur: "+selectedUser[0].realisePar,
                         data: selectedUser[0].resultats,
                         fill: false,
                         borderColor: 'blue',
@@ -129,14 +143,14 @@ function afficherGraphique(selectedUser, chartIndex) {
                 labels: lesinter,
                 datasets: [
                     {
-                        label: selectedUser[0].realisePar,
+                        label: "Estimation réalisée par l'utilisateur: "+selectedUser[0].realisePar,
                         data: selectedUser[0].resultats,
                         fill: false,
                         borderColor: 'blue',
                         tension: 0.1
                     },
                     {
-                        label: selectedUser[1].realisePar,
+                        label: "Estimation réalisée par l'utilisateur: "+selectedUser[1].realisePar,
                         data: selectedUser[1].resultats,
                         fill: false,
                         borderColor: 'red',
@@ -150,21 +164,21 @@ function afficherGraphique(selectedUser, chartIndex) {
                 labels: lesinter,
                 datasets: [
                     {
-                        label: selectedUser[0].realisePar,
+                        label: "Estimation réalisée par l'utilisateur: "+selectedUser[0].realisePar,
                         data: selectedUser[0].resultats,
                         fill: false,
                         borderColor: 'blue',
                         tension: 0.1
                     },
                     {
-                        label: selectedUser[1].realisePar,
+                        label: "Estimation réalisée par l'utilisateur: "+selectedUser[1].realisePar,
                         data: selectedUser[1].resultats,
                         fill: false,
                         borderColor: 'red',
                         tension: 0.1
                     },
                     {
-                        label: selectedUser[2].realisePar,
+                        label: "Estimation réalisée par l'utilisateur: "+selectedUser[2].realisePar,
                         data: selectedUser[2].resultats,
                         fill: false,
                         borderColor: 'green',
@@ -178,28 +192,28 @@ function afficherGraphique(selectedUser, chartIndex) {
                 labels: lesinter,
                 datasets: [
                     {
-                        label: selectedUser[0].realisePar,
+                        label: "Estimation réalisée par l'utilisateur: "+selectedUser[0].realisePar,
                         data: selectedUser[0].resultats,
                         fill: false,
                         borderColor: 'blue',
                         tension: 0.1
                     },
                     {
-                        label: selectedUser[1].realisePar,
+                        label: "Estimation réalisée par l'utilisateur: "+selectedUser[1].realisePar,
                         data: selectedUser[1].resultats,
                         fill: false,
                         borderColor: 'red',
                         tension: 0.1
                     },
                     {
-                        label: selectedUser[2].realisePar,
+                        label: "Estimation réalisée par l'utilisateur: "+selectedUser[2].realisePar,
                         data: selectedUser[2].resultats,
                         fill: false,
                         borderColor: 'green',
                         tension: 0.1
                     },
                     {
-                        label: selectedUser[3].realisePar,
+                        label: "Estimation réalisée par l'utilisateur: "+selectedUser[3].realisePar,
                         data: selectedUser[3].resultats,
                         fill: false,
                         borderColor: 'black',
