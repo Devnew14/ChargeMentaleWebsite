@@ -49,3 +49,7 @@ body {
 .retour-btn:hover {
     background-color: #2980b9; /* Bleu légèrement plus foncé au survol */
 }
+
+#div-infoUtilisateur {
+    margin-left: 20px; /* Ajouter une marge à gauche pour déplacer l'élément vers la droite */
+}

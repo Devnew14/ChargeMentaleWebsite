@@ -42,7 +42,7 @@ RecupererDonnees();
 
 // Fonction pour afficher le graphique
 function afficherGraphique(fullName,ladate) {
-
+    chargenfos(fullName);
     const canvas = document.getElementById('graphique');
     if (!canvas) {
         console.error("Element canvas non trouvé.");
@@ -143,9 +143,23 @@ function chargeSelcteurName(){//ajouter les different nom dans la liste deroulan
     chargeSelcteurDate();
 }
 
-function chargenfos(){// ajoute les infos de l'utilisateur (nom ,prenom ,age ,sexe ,metier)  
+function chargenfos(fullName) {
+    const userInfo = usersInfo[fullName];
+    if (userInfo) {
+        const pnom = document.querySelector('.p-nom');
+        const pprenom = document.querySelector('.p-prenom');
+        const page = document.querySelector('.p-age');
+        const psexe = document.querySelector('.p-sexe');
+        const pmetier = document.querySelector('.p-metier');
 
+        if (pnom) pnom.textContent = "Nom: " + userInfo[0];
+        if (pprenom) pprenom.textContent = "Prénom: " + userInfo[1];
+        if (page) page.textContent = "Date de Naissance: " + userInfo[2];
+        if (psexe) psexe.textContent = "Sexe: " + userInfo[3];
+        if (pmetier) pmetier.textContent = "Métier: " + userInfo[4];
+    }
 }
+
 
 function chargeSelcteurDate() {
     const nameSelected = document.getElementById('userDropdown').value;
@@ -178,7 +192,3 @@ document.addEventListener('DOMContentLoaded', function() {
         chargeSelcteurDate();
     });
 });
-
-
-
-
