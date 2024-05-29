@@ -24,11 +24,11 @@ body {
 }
 
 .user-charge {
-    background-color: rgb(69, 54, 207); /* Couleur pour la charge mentale de l'utilisateur */
+    background-color:red; /* Couleur pour la charge mentale de l'utilisateur */
 }
 
 .others-charge-red {
-    background-color: red; /* Couleur pour la charge estimée par les autres */
+    background-color:  rgb(69, 54, 207); /* Couleur pour la charge estimée par les autres */
     
 }
 
