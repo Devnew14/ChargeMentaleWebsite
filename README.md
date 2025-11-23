@@ -32,12 +32,4 @@ L’ultime objectif de ce projet est de rendre les résultats **significatifs et
 - **Backend et authentification** : Firebase (gestion des comptes et mots de passe)  
 - **Outils de prototypage** : Maquettes et documents de conception pour structurer le projet  
 
----
 
-## Organisation du projet
-/projet-charge-mentale
-│
-├─ /app-mobile # Code source de l'application mobile
-├─ /site-web # Code source du site web
-├─ /docs # Maquettes et documents de conception
-└─ README.md # Ce fichier
