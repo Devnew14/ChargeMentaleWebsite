@@ -1,7 +1,7 @@
 # Projet de Licence : Analyse de la Charge Mentale
 
 ## Contexte
-Dans le cadre de notre deuxième année de licence en informatique, nous avons réalisé un projet sur la **charge mentale d’une personne**. L’objectif était de créer une **application mobile** capable de mesurer la charge mentale d’un individu ou d’un groupe, et d’exploiter ces données à travers un **site web** développé en parallèle.  
+Dans le cadre de notre licence en informatique, nous avons réalisé un projet sur la **charge mentale d’une personne**. L’objectif était de créer une **application mobile** capable de mesurer la charge mentale d’un individu ou d’un groupe, et d’exploiter ces données à travers un **site web** développé en parallèle.  
 
 Le site permet d’analyser la charge mentale au sein d’un groupe de **pilotes dans le domaine de l’aviation**, afin d’étudier les performances d’un équipage durant un vol et les conséquences sur les tâches effectuées.  
 
