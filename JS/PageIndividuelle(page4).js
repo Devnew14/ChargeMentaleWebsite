@@ -1,212 +1,680 @@
+// javascript
 let usersData = {};
 let repereID = 0;
-let displayedNotes = {}; // Objet global pour suivre les notes affichées
-
-const recreateButton = document.getElementById('reset-button');
-recreateButton.addEventListener('click', () => {
-    location.reload();
-});
-
-const newTableButton = document.getElementById('new-struc-button');
-
-newTableButton.addEventListener('click', () => {
-    // Appeler la fonction pour créer un nouveau tableau
-    creerStructure();
-});
+let displayedNotes = {};
 
 
-function RecupererDonnees() {
-    // Récupérer les données depuis Firebase via l'URL spécifique
-    fetch('https://applicationbdd-default-rtdb.europe-west1.firebasedatabase.app/utilisateurs.json')
-        .then(response => response.json())
-        .then(data => {
-            // Parcourir chaque utilisateur
-            for (const userId in data) {
-                const user = data[userId];
+// ==========================================
+// BOUTON RESET
+// ==========================================
 
-                // Vérifier si l'utilisateur a des données d'évaluations individuelles
-                if (user.nom && user.prenom && user.evaluations && user.evaluations.evaluations_seul) {
-                    // Créer une clé composée du nom et du prénom
-                    const fullName = `${user.prenom} ${user.nom}`;
-                    // Stocker les données d'évaluations individuelles sous la clé du nom complet
-                    usersData[fullName] = user.evaluations.evaluations_seul;
-                }
-            }
+const recreateButton = document.getElementById("reset-button");
 
-            // Une fois les données récupérées avec succès, remplir le sélecteur avec les noms complets des utilisateurs
-        })
-        .catch(error => {
-            console.error('Erreur lors de la récupération des données depuis Firebase:', error);
-        });
-}
-
-RecupererDonnees();
-
-// Fonction pour remplir le sélecteur avec les noms complets des utilisateurs
-function remplirSelectAvecNomsComplets() {
-    // Sélectionner le sélecteur
-    const selectElement = document.getElementById('user-select'+repereID);
-
-    // Parcourir les clés de usersData (les noms complets des utilisateurs)
-    for (const fullName in usersData) {
-        // Créer une option pour chaque nom complet
-        const option = document.createElement('option');
-        option.text = fullName;
-        option.value = fullName;
-
-        // Ajouter l'option au sélecteur
-        selectElement.appendChild(option);
-    }
-
-    // Ajouter un écouteur d'événement pour détecter les changements de sélection dans le sélecteur
-    selectElement.addEventListener('change', () => {
-        const selectedUser = selectElement.value;
-        afficherDonneesUtilisateur(selectedUser);
+if (recreateButton) {
+    recreateButton.addEventListener("click", () => {
+        location.reload();
     });
 }
 
-function afficherDonneesUtilisateur(selectedUser) {
-    const userNotes = usersData[selectedUser].note;
 
-    // Sélectionner l'élément où afficher les données de l'utilisateur
-    const userDataElement = document.getElementById('user-data' + (repereID - 1));
+// ==========================================
+// CHARGER LES DONNÉES DEPUIS NODE.JS
+// ==========================================
 
-    // Effacer le contenu existant
-    userDataElement.innerHTML = '';
+async function RecupererDonnees() {
 
-    const selectDate = document.createElement('select');
-    selectDate.id = 'note-date-select' + (repereID - 1);
+    try {
 
-    // Ajouter une option vide pour la première sélection
-    const emptyOption = document.createElement('option');
-    emptyOption.text = 'Choisir une évaluation';
-    emptyOption.disabled = true;
-    emptyOption.selected = true;
-    selectDate.appendChild(emptyOption);
+        const response = await fetch(
+            "https://mini-jul-dad-tomorrow.trycloudflare.com/api/evaluations/individuelles"
+        );
 
-    // Remplir le sélecteur avec les dates des notes disponibles
-    for (const noteKey in userNotes) {
-        const option = document.createElement('option');
-        option.text = `${noteKey}`;
-        option.value = noteKey;
-        selectDate.appendChild(option);
-    }
-
-    selectDate.addEventListener('change', () => {
-        const selectedDate = selectDate.value;
-        const datePrefix = selectedDate.split('-').slice(0, 3).join('-'); // Obtenir le préfixe de date
-        afficherDetailsNote(datePrefix, userNotes); // Passer le préfixe et les notes
-    });
-
-    const noteDateContainer = document.getElementById('note-date-container' + (repereID - 1));
-    noteDateContainer.innerHTML = '';
-    noteDateContainer.appendChild(selectDate);
-}
-
-function afficherDetailsNote(datePrefix, userNotes) {
-    const userDataTbody = document.getElementById('user-data' + (repereID - 1));
-
-    // Parcourir les notes avec le même préfixe
-    for (const noteKey in userNotes) {
-        if (noteKey.startsWith(datePrefix) && !displayedNotes[noteKey]) {
-            const noteDetails = userNotes[noteKey];
-
-            // Obtenir uniquement la date sans le timestamp
-            const dateOnly = noteKey.split('-').slice(0, 3).join('-'); // Année-mois-jour
-
-            const newRow = document.createElement('tr');
-
-            const dateCell = document.createElement('td');
-            dateCell.textContent = dateOnly; // Afficher la date sans le timestamp
-
-            const echelleCell = document.createElement('td');
-            echelleCell.textContent = noteDetails.echelle;
-
-            const frequenceCell = document.createElement('td');
-            frequenceCell.textContent = noteDetails.frequence;
-
-
-            const resultatsCell = document.createElement('td');
-            resultatsCell.textContent = noteDetails.resultat.join(', ');
-
-            const removeButtonCell = document.createElement('td');
-            const removeButton = document.createElement('button');
-            removeButton.textContent = 'Retirer';
-            removeButton.addEventListener('click', () => {
-                delete displayedNotes[noteKey];
-                newRow.remove();
-            });
-            removeButtonCell.appendChild(removeButton);
-
-            newRow.appendChild(dateCell);
-            newRow.appendChild(echelleCell);
-            newRow.appendChild(frequenceCell);
-            newRow.appendChild(resultatsCell);
-            newRow.appendChild(removeButtonCell);
-
-            userDataTbody.appendChild(newRow);
-
-            displayedNotes[noteKey] = true;
+        if (!response.ok) {
+            throw new Error(
+                "Erreur lors de la récupération des évaluations"
+            );
         }
+
+        const data = await response.json();
+
+        console.log(
+            "Évaluations individuelles récupérées :",
+            data
+        );
+
+        usersData = data;
+
+        return usersData;
+
+    } catch (error) {
+
+        console.error(
+            "Erreur lors de la récupération des données :",
+            error
+        );
+
+        alert(
+            "Impossible de récupérer les évaluations individuelles."
+        );
+
+        return {};
     }
 }
 
 
-function creerStructure() {
-    const structureContainer = document.createElement('div'); // Créer un conteneur pour la structure
-    structureContainer.classList.add('structure-container'); // Ajouter une classe pour cibler le conteneur
+// ==========================================
+// REMPLIR LA LISTE DES UTILISATEURS
+// ==========================================
 
-    const selectLabel = document.createElement('label'); // Créer un label pour le selecteur
-    selectLabel.textContent = "Choisir un utilisateur:"; // Texte du label
-    const selectUser = document.createElement('select'); // Créer un selecteur
-    selectUser.id = "user-select" + repereID; // Lui donne un id qui sera unique
-    selectLabel.setAttribute('for', selectUser.id); // Associer le label au selecteur
-    // Ajouter une option vide pour la première sélection
-    const emptyOption = document.createElement('option');
-    emptyOption.text = 'Liste des utilisateurs';
+function remplirSelectAvecNomsComplets(structureID) {
+
+    const selectElement =
+        document.getElementById(
+            "user-select" + structureID
+        );
+
+    if (!selectElement) {
+        return;
+    }
+
+    selectElement.innerHTML = "";
+
+    const emptyOption =
+        document.createElement("option");
+
+    emptyOption.text =
+        "Liste des utilisateurs";
+
     emptyOption.disabled = true;
     emptyOption.selected = true;
-    selectUser.appendChild(emptyOption);
-    const dateContainer = document.createElement('div'); // Créer l'emplacement du sélecteur de date
-    dateContainer.id = 'note-date-container' + repereID; // Lui donne un id qui sera unique
 
-    const table = document.createElement('table'); // Créer le tableau
-    table.id = "data-list" + repereID; // Lui donne un id unique
-    const tableHead = document.createElement('thead');
-    const tableHeadRow = document.createElement('tr');
-    const headers = ['Date de l\'évaluation', 'Échelle d\'évaluation', 'Fréquence des notifications (en secondes)', 'Résultats des appuis'];
-    headers.forEach(headerText => {
-        const header = document.createElement('th');
-        header.textContent = headerText;
-        tableHeadRow.appendChild(header);
-    });
-    tableHead.appendChild(tableHeadRow);
-    table.appendChild(tableHead);
-    // Création du corps du tableau
-    const tableBody = document.createElement('tbody');
-    tableBody.id = 'user-data' + repereID;
-    table.appendChild(tableBody);
+    selectElement.appendChild(
+        emptyOption
+    );
 
-    // Bouton pour supprimer la structure
-    const removeButton = document.createElement('button');
-    removeButton.textContent = 'Supprimer';
-    removeButton.addEventListener('click', () => {
-        structureContainer.remove(); // Supprimer la structure du document
-    });
 
-    // Ajout des éléments créés au conteneur de structure
-    structureContainer.appendChild(selectLabel); // Ajout du label
-    structureContainer.appendChild(selectUser);
-    structureContainer.appendChild(document.createElement('br'));
-    structureContainer.appendChild(dateContainer);
-    structureContainer.appendChild(document.createElement('br'));
-    structureContainer.appendChild(table);
-    structureContainer.appendChild(removeButton); // Ajout du bouton de suppression
+    for (const fullName in usersData) {
 
-    // Ajout de la structure complète au document
-    document.body.appendChild(structureContainer);
+        const option =
+            document.createElement("option");
 
-    remplirSelectAvecNomsComplets(); // Remplir le sélecteur avec les noms complets des utilisateurs
+        option.text =
+            fullName;
+
+        option.value =
+            fullName;
+
+        selectElement.appendChild(
+            option
+        );
+    }
+
+
+    selectElement.addEventListener(
+        "change",
+        () => {
+
+            const selectedUser =
+                selectElement.value;
+
+            afficherDonneesUtilisateur(
+                selectedUser,
+                structureID
+            );
+        }
+    );
+}
+
+
+// ==========================================
+// AFFICHER LES DONNÉES D'UN UTILISATEUR
+// ==========================================
+
+function afficherDonneesUtilisateur(
+    selectedUser,
+    structureID
+) {
+
+    if (!usersData[selectedUser]) {
+        return;
+    }
+
+
+    const userNotes =
+        usersData[selectedUser].note || {};
+
+
+    const noteDateContainer =
+        document.getElementById(
+            "note-date-container" + structureID
+        );
+
+
+    if (!noteDateContainer) {
+        return;
+    }
+
+
+    noteDateContainer.innerHTML = "";
+
+
+    const selectDate =
+        document.createElement("select");
+
+
+    selectDate.id =
+        "note-date-select" + structureID;
+
+
+    const emptyOption =
+        document.createElement("option");
+
+    emptyOption.text =
+        "Choisir une évaluation";
+
+    emptyOption.disabled = true;
+    emptyOption.selected = true;
+
+
+    selectDate.appendChild(
+        emptyOption
+    );
+
+
+    /*
+     * Ajouter toutes les évaluations
+     * disponibles pour l'utilisateur.
+     */
+    for (const noteKey in userNotes) {
+
+        const noteDetails =
+            userNotes[noteKey];
+
+
+        const option =
+            document.createElement("option");
+
+
+        option.text =
+            `${noteKey} - Échelle ${noteDetails.echelle}`;
+
+
+        option.value =
+            noteKey;
+
+
+        selectDate.appendChild(
+            option
+        );
+    }
+
+
+    selectDate.addEventListener(
+        "change",
+        () => {
+
+            const selectedDate =
+                selectDate.value;
+
+            afficherDetailsNote(
+                selectedDate,
+                userNotes,
+                structureID
+            );
+        }
+    );
+
+
+    noteDateContainer.appendChild(
+        selectDate
+    );
+}
+
+
+// ==========================================
+// AFFICHER LES DÉTAILS D'UNE ÉVALUATION
+// ==========================================
+
+function afficherDetailsNote(
+    selectedDate,
+    userNotes,
+    structureID
+) {
+
+    const userDataTbody =
+        document.getElementById(
+            "user-data" + structureID
+        );
+
+
+    if (!userDataTbody) {
+        return;
+    }
+
+
+    const noteDetails =
+        userNotes[selectedDate];
+
+
+    if (!noteDetails) {
+        return;
+    }
+
+
+    /*
+     * Nettoyer le tableau.
+     */
+    userDataTbody.innerHTML = "";
+
+
+    const newRow =
+        document.createElement("tr");
+
+
+    // ======================================
+    // DATE
+    // ======================================
+
+    const dateCell =
+        document.createElement("td");
+
+    dateCell.textContent =
+        selectedDate;
+
+
+    // ======================================
+    // ÉCHELLE
+    // ======================================
+
+    const echelleCell =
+        document.createElement("td");
+
+    echelleCell.textContent =
+        noteDetails.echelle;
+
+
+    // ======================================
+    // FRÉQUENCE
+    // ======================================
+
+    const frequenceCell =
+        document.createElement("td");
+
+    frequenceCell.textContent =
+        noteDetails.frequence;
+
+
+    // ======================================
+    // RÉSULTATS
+    // ======================================
+
+    const resultatsCell =
+        document.createElement("td");
+
+
+    if (
+        Array.isArray(
+            noteDetails.resultat
+        )
+    ) {
+
+        resultatsCell.textContent =
+            noteDetails.resultat.join(", ");
+
+    } else {
+
+        resultatsCell.textContent =
+            noteDetails.resultat || "";
+    }
+
+
+    // ======================================
+    // BOUTON RETIRER
+    // ======================================
+
+    const removeButtonCell =
+        document.createElement("td");
+
+
+    const removeButton =
+        document.createElement("button");
+
+
+    removeButton.textContent =
+        "Retirer";
+
+
+    removeButton.addEventListener(
+        "click",
+        () => {
+
+            newRow.remove();
+
+        }
+    );
+
+
+    removeButtonCell.appendChild(
+        removeButton
+    );
+
+
+    // ======================================
+    // AJOUTER LES CELLULES
+    // ======================================
+
+    newRow.appendChild(
+        dateCell
+    );
+
+    newRow.appendChild(
+        echelleCell
+    );
+
+    newRow.appendChild(
+        frequenceCell
+    );
+
+    newRow.appendChild(
+        resultatsCell
+    );
+
+    newRow.appendChild(
+        removeButtonCell
+    );
+
+
+    userDataTbody.appendChild(
+        newRow
+    );
+}
+
+
+// ==========================================
+// CRÉER UNE STRUCTURE
+// ==========================================
+
+async function creerStructure() {
+
+    /*
+     * Si les données ne sont pas encore chargées,
+     * on attend leur chargement.
+     */
+    if (
+        !usersData ||
+        Object.keys(usersData).length === 0
+    ) {
+
+        await RecupererDonnees();
+    }
+
+
+    /*
+     * Vérification après chargement.
+     */
+    if (
+        !usersData ||
+        Object.keys(usersData).length === 0
+    ) {
+
+        alert(
+            "Aucun utilisateur ou aucune évaluation disponible."
+        );
+
+        return;
+    }
+
+
+    const structureID =
+        repereID;
+
+
+    // ======================================
+    // CONTAINER
+    // ======================================
+
+    const structureContainer =
+        document.createElement("div");
+
+    structureContainer.classList.add(
+        "structure-container"
+    );
+
+
+    // ======================================
+    // LABEL
+    // ======================================
+
+    const selectLabel =
+        document.createElement("label");
+
+    selectLabel.textContent =
+        "Choisir un utilisateur:";
+
+
+    // ======================================
+    // SELECT UTILISATEUR
+    // ======================================
+
+    const selectUser =
+        document.createElement("select");
+
+
+    selectUser.id =
+        "user-select" + structureID;
+
+
+    selectLabel.setAttribute(
+        "for",
+        selectUser.id
+    );
+
+
+    const emptyOption =
+        document.createElement("option");
+
+
+    emptyOption.text =
+        "Liste des utilisateurs";
+
+    emptyOption.disabled = true;
+    emptyOption.selected = true;
+
+
+    selectUser.appendChild(
+        emptyOption
+    );
+
+
+    // ======================================
+    // CONTAINER DES DATES
+    // ======================================
+
+    const dateContainer =
+        document.createElement("div");
+
+
+    dateContainer.id =
+        "note-date-container" +
+        structureID;
+
+
+    // ======================================
+    // TABLEAU
+    // ======================================
+
+    const table =
+        document.createElement("table");
+
+
+    table.id =
+        "data-list" +
+        structureID;
+
+
+    // ======================================
+    // EN-TÊTE DU TABLEAU
+    // ======================================
+
+    const tableHead =
+        document.createElement("thead");
+
+
+    const tableHeadRow =
+        document.createElement("tr");
+
+
+    const headers = [
+        "Date de l'évaluation",
+        "Échelle d'évaluation",
+        "Fréquence des notifications (en secondes)",
+        "Résultats des appuis",
+        "Action"
+    ];
+
+
+    headers.forEach(
+        headerText => {
+
+            const header =
+                document.createElement("th");
+
+            header.textContent =
+                headerText;
+
+            tableHeadRow.appendChild(
+                header
+            );
+        }
+    );
+
+
+    tableHead.appendChild(
+        tableHeadRow
+    );
+
+
+    table.appendChild(
+        tableHead
+    );
+
+
+    // ======================================
+    // CORPS DU TABLEAU
+    // ======================================
+
+    const tableBody =
+        document.createElement("tbody");
+
+
+    tableBody.id =
+        "user-data" +
+        structureID;
+
+
+    table.appendChild(
+        tableBody
+    );
+
+
+    // ======================================
+    // BOUTON SUPPRIMER
+    // ======================================
+
+    const removeButton =
+        document.createElement("button");
+
+
+    removeButton.textContent =
+        "Supprimer";
+
+
+    removeButton.addEventListener(
+        "click",
+        () => {
+
+            structureContainer.remove();
+
+        }
+    );
+
+
+    // ======================================
+    // ASSEMBLAGE
+    // ======================================
+
+    structureContainer.appendChild(
+        selectLabel
+    );
+
+    structureContainer.appendChild(
+        selectUser
+    );
+
+    structureContainer.appendChild(
+        document.createElement("br")
+    );
+
+    structureContainer.appendChild(
+        dateContainer
+    );
+
+    structureContainer.appendChild(
+        document.createElement("br")
+    );
+
+    structureContainer.appendChild(
+        table
+    );
+
+    structureContainer.appendChild(
+        removeButton
+    );
+
+
+    document.body.appendChild(
+        structureContainer
+    );
+
+
+    /*
+     * Remplir la liste des utilisateurs.
+     */
+    remplirSelectAvecNomsComplets(
+        structureID
+    );
+
+
     repereID++;
 }
+
+
+// ==========================================
+// BOUTON AJOUTER UN UTILISATEUR
+// ==========================================
+
+const newTableButton =
+    document.getElementById(
+        "new-struc-button"
+    );
+
+
+if (newTableButton) {
+
+    newTableButton.addEventListener(
+        "click",
+        () => {
+
+            creerStructure();
+
+        }
+    );
+}
+
+
+// ==========================================
+// CHARGEMENT INITIAL
+// ==========================================
+
+RecupererDonnees();
 

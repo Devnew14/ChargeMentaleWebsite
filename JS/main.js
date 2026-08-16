@@ -1,62 +1,117 @@
-// Fonction pour bloquer la navigation vers l'arrière et l'avant après la connexion
+// ==========================================
+// BLOQUER LE RETOUR ARRIÈRE
+// ==========================================
+
 const blockNavigation = () => {
-  history.pushState(null, null, location.href);
-  window.onpopstate = function(event) {
-    history.go(1);
-  };
-}
+    history.pushState(null, null, location.href);
 
-// Ajout de la fonction blockNavigation() sans modifier le reste du code
-const firebaseApp = firebase.initializeApp({
-  apiKey: "AIzaSyDAjHW6t2SYJBjkpxHIDLu8zjaxbqVG9p8",
-  authDomain: "applicationbdd.firebaseapp.com",
-  databaseURL: "https://applicationbdd-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "applicationbdd",
-  storageBucket: "applicationbdd.appspot.com",
-  messagingSenderId: "513799976823",
-  appId: "1:513799976823:web:d440c5e4298ebc4f319372"
-});
+    window.onpopstate = function() {
+        history.go(1);
+    };
+};
 
-const db = firebaseApp.firestore();
-const auth = firebaseApp.auth();
 
-// Sign up function
-const signUp = () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+// ==========================================
+// INSCRIPTION
+// ==========================================
 
-  // Firebase code for signing up
-  firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then((result) => {
-      // Signed up successfully, redirect to testseulcorrecte.html
-      window.location.href = "Html/Affichage(page3).html";
-    })
-    .catch((error) => {
-      console.error(error.code);
-      console.error(error.message);
-      // Handle sign up errors here...
-    });
-}
+const signUp = async () => {
 
-// Sign In function
-const signIn = () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-  // Firebase code for signing in
-  firebase.auth().signInWithEmailAndPassword(email, password)
-    .then((result) => {
-      // Signed in successfully, redirect to testseulcorrecte.html
-      window.location.href = 'Html/Affichage(page3).html';
-    })
-    .catch((error) => {
-      console.error(error.code);
-      console.error(error.message);
-      // Handle sign in errors here...
-    });
-}
+    try {
 
-// Appel de la fonction blockNavigation() après le chargement de la page
+        const response = await fetch(
+            "https://mini-jul-dad-tomorrow.trycloudflare.com/api/auth/register",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.error);
+            return;
+        }
+
+        console.log("Inscription réussie :", data);
+
+        window.location.href =
+            "Html/Affichage(page3).html";
+
+    } catch (error) {
+
+        console.error("Erreur inscription :", error);
+
+        alert("Impossible de contacter le serveur.");
+    }
+};
+
+
+// ==========================================
+// CONNEXION
+// ==========================================
+
+const signIn = async () => {
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+
+        const response = await fetch(
+            "https://mini-jul-dad-tomorrow.trycloudflare.com/api/auth/login",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.error);
+            return;
+        }
+
+        console.log("Connexion réussie :", data);
+
+        localStorage.setItem(
+            "currentUser",
+            JSON.stringify(data.user)
+        );
+
+        window.location.href =
+            "Html/Affichage(page3).html";
+
+    } catch (error) {
+
+        console.error("Erreur connexion :", error);
+
+        alert("Impossible de contacter le serveur.");
+    }
+};
+
+
+// ==========================================
+// CHARGEMENT DE LA PAGE
+// ==========================================
+
 window.onload = function() {
-  blockNavigation();
+    blockNavigation();
 };
